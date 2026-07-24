@@ -42,7 +42,8 @@ const SETTINGS_SECTIONS = [
   { id: 'connections', labelKey: 'settings.sectionConnections' },
   { id: 'llm', labelKey: 'settings.sectionLlm' },
   { id: 'appearance', labelKey: 'settings.sectionAppearance' },
-  { id: 'updates', labelKey: 'settings.sectionUpdates' }
+  { id: 'updates', labelKey: 'settings.sectionUpdates' },
+  { id: 'privacy', labelKey: 'settings.sectionPrivacy' }
 ] as const
 
 /** Deep link to the API Integration page of the user's own Tempo instance. */
@@ -856,6 +857,21 @@ export function SettingsView(): JSX.Element {
           <p className="hint">{t('settings.updateManualOnly')}</p>
         )}
         {showHistory && <VersionHistoryModal onClose={() => setShowHistory(false)} />}
+      </section>
+
+      <section id="settings-section-privacy" className="card settings-section">
+        <h3>{t('settings.sectionPrivacy')}</h3>
+        <p className="hint">{t('settings.telemetryHint')}</p>
+        <div className="field">
+          <label className="settings-checkbox">
+            <input
+              type="checkbox"
+              checked={draft.telemetry.enabled}
+              onChange={(e) => patchSection('telemetry', { enabled: e.target.checked })}
+            />
+            {t('settings.telemetryEnabled')}
+          </label>
+        </div>
       </section>
 
       <div className="settings-save-bar">

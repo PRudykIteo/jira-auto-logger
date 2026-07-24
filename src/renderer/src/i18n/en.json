@@ -195,7 +195,10 @@
     "currentVersion": "Installed version",
     "checkForUpdates": "Check now",
     "versionHistory": "What's new / history",
-    "updateManualOnly": "On this platform (unsigned build) updates are manual — we'll show a link to download the new version."
+    "updateManualOnly": "On this platform (unsigned build) updates are manual — we'll show a link to download the new version.",
+    "sectionPrivacy": "Privacy & telemetry",
+    "telemetryEnabled": "Share anonymous usage data",
+    "telemetryHint": "Helps improve the app by reporting anonymous usage: an app-launch and a time-logged event (entry count and total hours), plus the app version and OS your platform automatically adds. No issue keys, descriptions, credentials or any personal data are ever sent. Uses Aptabase; turn it off anytime."
   },
   "projects": {
     "hint": "A project combines a name, one or more Jira projects (e.g. the client's Jira and the company Jira), optional repositories (each with its commit-author filter) and a standing LLM instruction. When generating entries you pick which projects you worked on.",

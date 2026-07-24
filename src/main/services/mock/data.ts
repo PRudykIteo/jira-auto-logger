@@ -133,6 +133,8 @@ export function mockConfig(): AppConfig {
     showWeekends: true,
     issuePool: { lookbackDays: 60, maxIssues: 100 },
     updates: { mode: 'ask' },
+    // Mock mode never phones home regardless; keep it explicitly off.
+    telemetry: { enabled: false },
     lastUsed: { selections: [] }
   }
 }

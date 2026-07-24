@@ -8,6 +8,7 @@ import { GitService } from './services/GitService'
 import { logger } from './services/logger'
 import { LlmService } from './services/llm/LlmService'
 import { isMockMode, MockGitService } from './services/mock'
+import { TelemetryService } from './services/TelemetryService'
 import { UpdateService } from './services/UpdateService'
 
 /**
@@ -35,7 +36,12 @@ async function toResult<T>(channel: string, fn: () => Promise<T>): Promise<Resul
   }
 }
 
-export function registerIpcHandlers(): UpdateService {
+/**
+ * Registers all IPC handlers. `telemetry` is created and initialized in
+ * `index.ts` before the app is ready (Aptabase requires that); here we only
+ * bind it to config and fire events.
+ */
+export function registerIpcHandlers(telemetry: TelemetryService): UpdateService {
   const configService = new ConfigService()
   const getConfig = (): AppConfig => configService.get()
   const connections = new ConnectionManager(getConfig)
@@ -44,6 +50,7 @@ export function registerIpcHandlers(): UpdateService {
     : new GitService(() => getConfig().projects.flatMap((p) => p.gitFolders))
   const llm = new LlmService(getConfig, git, connections)
   const updates = new UpdateService(() => getConfig().updates.mode)
+  telemetry.bindConfig(getConfig)
 
   logger.info('app', 'IPC handlers registered', {
     logFile: logger.filePath,
@@ -104,11 +111,16 @@ export function registerIpcHandlers(): UpdateService {
       )
   )
   ipcMain.handle(IPC_CHANNELS.tempoCreateWorklogs, (_e, connectionId: string, worklogs: NewWorklog[]) =>
-    toResult(IPC_CHANNELS.tempoCreateWorklogs, async () =>
-      connections
+    toResult(IPC_CHANNELS.tempoCreateWorklogs, async () => {
+      const created = await connections
         .tempo(connectionId)
         .createWorklogs(await connections.accountId(connectionId), worklogs)
-    )
+      telemetry.trackWorklogsCreated(
+        created.length,
+        created.reduce((sum, w) => sum + w.timeSpentSeconds, 0) / 3600
+      )
+      return created
+    })
   )
 
   ipcMain.handle(
