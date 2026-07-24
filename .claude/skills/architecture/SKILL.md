@@ -102,6 +102,15 @@ calls the private `track()` (so it inherits gating + the `env` common prop), the
 call it from the relevant main-process site (e.g. an IPC handler, after success).
 Don't call `trackEvent` directly from handlers.
 
+**Event props vs session attributes**: Aptabase has **no** user/session-property
+API - the SDK already stamps OS, app version and locale onto *every* event as
+system props, and custom values can only ride on an event. Put a per-action
+value on its own event's props; put a per-session attribute (e.g. `theme`) on
+`app_started` and segment by breaking that event down. Reserve the `env` common
+prop (on every event) for the dev/prod filter dimension you apply across all
+event types. Send numbers as numbers (Aptabase aggregates them - sum/avg) and
+categorical values as strings (shown as value breakdowns).
+
 **Dev vs prod traffic**: every event carries an `env` prop
 (`development`/`production` from `app.isPackaged`, override with
 `JAL_TELEMETRY_ENV`, e.g. `test`). Aptabase also splits unpackaged runs via its

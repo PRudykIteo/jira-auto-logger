@@ -1,4 +1,5 @@
 import { app } from 'electron'
+import type { AppConfig } from '@shared/domain'
 import { initialize, trackEvent } from '@aptabase/electron/main'
 import { isMockMode } from './mock'
 import { logger } from './logger'
@@ -15,9 +16,10 @@ const APTABASE_APP_KEY = 'A-EU-3600777036'
  * Anonymous, opt-out usage telemetry via Aptabase. All reporting happens in the
  * main process (the renderer has no `ipcRenderer` under contextIsolation), so
  * the renderer never needs the SDK. Aptabase automatically attributes anonymous
- * sessions, app version and OS to each event - that already yields active-user
- * and version counts; we add a single `worklogs_created` event carrying only a
- * count and total hours. No issue keys, descriptions or credentials are sent.
+ * sessions, app version, OS and locale to each event - that already yields
+ * active-user and version counts; we add a `worklogs_created` event carrying
+ * only a count and total hours, a `theme` prop on `app_started`, and an `env`
+ * prop on every event. No issue keys, descriptions or credentials are sent.
  *
  * Note: `dev` (unpackaged) runs are tagged `isDebug: true` by the SDK, so their
  * events appear only under the Aptabase dashboard's "Debug" filter, not the
@@ -25,19 +27,19 @@ const APTABASE_APP_KEY = 'A-EU-3600777036'
  */
 export class TelemetryService {
   private initialized = false
-  private isEnabled: () => boolean = () => false
+  private readConfig: () => AppConfig | null = () => null
 
   private get appKey(): string {
     return process.env.JAL_APTABASE_KEY?.trim() || APTABASE_APP_KEY
   }
 
   /**
-   * Set the opt-out source once config is available (after app ready). Reading
-   * it lazily per event means toggling the setting takes effect immediately,
-   * with no restart.
+   * Bind the live config source once it is available (after app ready). It is
+   * read lazily per event, so both the opt-out and reported attributes (theme)
+   * always reflect the current config with no restart.
    */
-  bindConfig(isEnabled: () => boolean): void {
-    this.isEnabled = isEnabled
+  bindConfig(readConfig: () => AppConfig): void {
+    this.readConfig = readConfig
   }
 
   /**
@@ -56,9 +58,14 @@ export class TelemetryService {
     this.initialized = true
   }
 
-  /** Fired once on launch so users who never log time still count as active. */
+  /**
+   * Fired once on launch so users who never log time still count as active.
+   * Carries the active `theme` - a per-session attribute (like the SDK's own
+   * OS/version), so theme adoption is a breakdown of this event.
+   */
   start(): void {
-    void this.track('app_started')
+    const config = this.readConfig()
+    void this.track('app_started', config ? { theme: config.themeId } : undefined)
   }
 
   /** One event per successful worklog submission; hours rounded to keep it coarse. */
@@ -68,15 +75,17 @@ export class TelemetryService {
 
   /** Telemetry sends only when initialized (has key, not mock) and opted in. */
   private get active(): boolean {
-    return this.initialized && this.isEnabled()
+    const config = this.readConfig()
+    return this.initialized && config !== null && config.telemetry.enabled
   }
 
   /**
-   * Attached to every event so dev/test traffic is trivially filterable in the
-   * dashboard. Defaults from `app.isPackaged` (dev runs → `development`) but can
-   * be forced with `JAL_TELEMETRY_ENV`, e.g. to mark a packaged build you run
-   * locally as `test` so it never pollutes production stats. This is on top of
-   * Aptabase's own `isDebug` flag (which also splits unpackaged runs out).
+   * `env` rides on every event so any event type (including `worklogs_created`)
+   * can be filtered by it: `development`/`production` from `app.isPackaged`,
+   * overridable with `JAL_TELEMETRY_ENV` (e.g. `test`), so dev/test traffic
+   * filters out of real stats. This is on top of Aptabase's own `isDebug` split
+   * of unpackaged runs. Per-session attributes like `theme` ride on
+   * `app_started` instead, not here.
    */
   private get commonProps(): Record<string, string> {
     return { env: process.env.JAL_TELEMETRY_ENV?.trim() || (app.isPackaged ? 'production' : 'development') }

@@ -50,7 +50,7 @@ export function registerIpcHandlers(telemetry: TelemetryService): UpdateService 
     : new GitService(() => getConfig().projects.flatMap((p) => p.gitFolders))
   const llm = new LlmService(getConfig, git, connections)
   const updates = new UpdateService(() => getConfig().updates.mode)
-  telemetry.bindConfig(() => getConfig().telemetry.enabled)
+  telemetry.bindConfig(getConfig)
 
   logger.info('app', 'IPC handlers registered', {
     logFile: logger.filePath,
