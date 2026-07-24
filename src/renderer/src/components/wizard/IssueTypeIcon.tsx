@@ -17,7 +17,7 @@ const BADGES: Record<IssueKind, BadgeStyle> = {
   story: { glyph: '◆', background: '#36b37e' },
   task: { glyph: '✓', background: '#4a90e2' },
   bug: { glyph: '●', background: '#e5493a' },
-  subtask: { glyph: '⤷', background: '#2f9e9e' }
+  subtask: { glyph: '⤷', background: '#4bade8' }
 }
 
 function classify(typeName: string, isSubtask: boolean): IssueKind | null {

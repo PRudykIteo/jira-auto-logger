@@ -124,15 +124,25 @@ export function IssueAutocomplete({
   }
 
   const selectedUrl = jiraIssueUrl(jiraBaseUrl, value)
+  // Type info for the input badge: prefer what the parent supplies, but fall
+  // back to the loaded pool so the badge also shows for issues that arrive
+  // without type metadata (e.g. a calendar worklog opened for editing).
+  const selectedType = useMemo(() => {
+    if (valueTypeName || valueIsSubtask) return { typeName: valueTypeName, isSubtask: valueIsSubtask }
+    const match = value ? pool.find((i) => i.key === value) : undefined
+    return { typeName: match?.typeName ?? '', isSubtask: match?.isSubtask ?? false }
+  }, [value, valueTypeName, valueIsSubtask, pool])
+
   // The badge is shown only while the input mirrors the selected issue.
-  const showBadge = Boolean(value) && text === value && Boolean(valueTypeName || valueIsSubtask)
+  const showBadge =
+    Boolean(value) && text === value && Boolean(selectedType.typeName || selectedType.isSubtask)
 
   return (
     <div className="issue-autocomplete" ref={containerRef}>
       <div className="issue-autocomplete-input-row">
         {showBadge && (
           <span className="issue-input-badge">
-            <IssueTypeIcon typeName={valueTypeName} isSubtask={valueIsSubtask} />
+            <IssueTypeIcon typeName={selectedType.typeName} isSubtask={selectedType.isSubtask} />
           </span>
         )}
         <input
