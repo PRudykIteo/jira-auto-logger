@@ -72,6 +72,45 @@ exact format and how the version number is chosen.
 - LLM output is never trusted: `parseSuggestions` validates issue keys against the real candidate pool, normalizes hours and custom-field types.
 - Providers run sequentially across projects (CLI backends dislike concurrency).
 
+## Telemetry (Aptabase)
+
+Anonymous, opt-out usage telemetry lives entirely in the main process
+(`src/main/services/TelemetryService.ts`) - the renderer has no `ipcRenderer`
+under `contextIsolation`, so **never** try to track from the renderer. Aptabase
+attributes anonymous sessions, app version and OS automatically; we add only
+coarse custom events.
+
+Hard rules learned the hard way:
+- **`initialize` must run before the app `ready` event.** The SDK disables
+  itself (silent except a `console.warn`) if the app is already ready, and every
+  event then buffers forever and is never sent. It is called at module load in
+  `src/main/index.ts`, *not* inside `whenReady`. Keep it there.
+- `initialize` does **no** network I/O by itself - nothing is sent until an
+  event fires - so it runs unconditionally (given an app key and non-mock). The
+  opt-out (`config.telemetry.enabled`) and mock-mode gates live in
+  `TelemetryService.track()`, checked per event so the setting takes effect at
+  runtime with no restart. `bindConfig()` wires the config source in
+  `registerIpcHandlers` (after `ready`, when config exists).
+- Never send content: no issue keys, descriptions, credentials, paths, notes.
+  Only counts, durations, enums. `trackEvent` props accept `string | number |
+  boolean` only.
+- **Mock mode never phones home** (`isMockMode()` gate + `telemetry.enabled:
+  false` in `mockConfig()`). Keep both.
+
+**Adding a new event**: add a `trackFoo()` method on `TelemetryService` that
+calls the private `track()` (so it inherits gating + the `env` common prop), then
+call it from the relevant main-process site (e.g. an IPC handler, after success).
+Don't call `trackEvent` directly from handlers.
+
+**Dev vs prod traffic**: every event carries an `env` prop
+(`development`/`production` from `app.isPackaged`, override with
+`JAL_TELEMETRY_ENV`, e.g. `test`). Aptabase also splits unpackaged runs via its
+own `isDebug` flag. So `dev` runs appear only under the dashboard's **Debug**
+toggle (not the default Release view) and can be filtered by `env`. The app key
+is baked in (`APTABASE_APP_KEY`, region encoded as `A-EU-…`); override with
+`JAL_APTABASE_KEY`, and self-host with `JAL_APTABASE_HOST` (only honored for
+`A-SH-…` keys - the SDK forces the region host for US/EU keys).
+
 ## Misc conventions
 
 - Comments explain *why*, in English; code style matches the existing files (2-space, single quotes, no semicolon-free style changes).

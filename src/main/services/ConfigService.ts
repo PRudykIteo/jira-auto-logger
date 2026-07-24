@@ -56,6 +56,7 @@ export function defaultConfig(): AppConfig {
     showWeekends: true,
     issuePool: { lookbackDays: 60, maxIssues: 100 },
     updates: { mode: 'ask' },
+    telemetry: { enabled: true },
     lastUsed: { selections: [] }
   }
 }
@@ -121,6 +122,7 @@ export class ConfigService {
       delete (config.llm as { mainPrompt?: string }).mainPrompt
       config.issuePool = { ...defaultConfig().issuePool, ...stored.config.issuePool }
       config.updates = { ...defaultConfig().updates, ...stored.config.updates }
+      config.telemetry = { ...defaultConfig().telemetry, ...stored.config.telemetry }
       config.connections = stored.config.connections ?? []
       // lastUsed changed shape over time; keep only the current fields.
       config.lastUsed = { selections: stored.config.lastUsed?.selections ?? [] }

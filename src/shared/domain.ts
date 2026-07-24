@@ -172,6 +172,8 @@ export interface AppConfig {
   issuePool: IssuePoolConfig
   /** Automatic-update preference. */
   updates: UpdateConfig
+  /** Anonymous usage telemetry preference (opt-out). */
+  telemetry: TelemetryConfig
   lastUsed: LastUsedSelection
 }
 
@@ -192,6 +194,16 @@ export type UpdateMode = 'ask' | 'auto' | 'off'
 
 export interface UpdateConfig {
   mode: UpdateMode
+}
+
+/**
+ * Anonymous usage telemetry (Aptabase). Opt-out: on by default, disabled from
+ * Settings. When enabled the app reports anonymous sessions (for active-user
+ * and version counts) and a `worklogs_created` event with a count and total
+ * hours - never issue keys, descriptions, credentials or any other content.
+ */
+export interface TelemetryConfig {
+  enabled: boolean
 }
 
 export type UpdateStatus =

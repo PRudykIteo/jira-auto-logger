@@ -2,6 +2,14 @@ import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 import { registerIpcHandlers } from './ipc'
 import { runScreenshotMode } from './screenshotMode'
+import { TelemetryService } from './services/TelemetryService'
+
+// Aptabase must be initialized before the app 'ready' event, so do it at module
+// load - well before `whenReady` below. It sends nothing on its own; event
+// reporting is gated on the opt-out setting once config is bound in the IPC
+// layer.
+const telemetry = new TelemetryService()
+telemetry.init()
 
 function createWindow(): BrowserWindow {
   const window = new BrowserWindow({
@@ -37,9 +45,10 @@ function createWindow(): BrowserWindow {
 }
 
 app.whenReady().then(() => {
-  const updates = registerIpcHandlers()
+  const updates = registerIpcHandlers(telemetry)
   const window = createWindow()
   updates.start()
+  telemetry.start()
 
   const screenshotDir = process.env.JAL_SCREENSHOTS
   if (screenshotDir) {
