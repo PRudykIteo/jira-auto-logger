@@ -47,6 +47,16 @@ the top of `CHANGELOG.md` before merging:
    under the same upcoming-version heading; rename it if the computed version
    shifts (e.g. someone else released in between).
 
+**A stale heading now fails the release instead of being ignored.**
+`.github/scripts/check-changelog.js` runs before anything is published: if a
+push *adds* a `## <version>` heading that isn't the version being released, the
+`create-release` job fails and tells you what to rename it to. Pushes that add
+no heading skip the check, so internal changes still fall back to
+auto-generated notes as intended. This exists because the failure used to be
+silent - v0.1.20 shipped with commit notes because its section had been written
+as `## 0.1.19` before the telemetry release took that number, and nobody
+noticed until it showed up in the in-app "What's new".
+
 The `create-release` job runs `.github/scripts/release-notes.js <version>`,
 which extracts the matching `## <version>` section and uses it as the release
 body. **Purely internal pushes** (refactors, CI, docs) need no entry — with no
