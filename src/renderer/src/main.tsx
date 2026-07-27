@@ -6,6 +6,7 @@ import { useAppStore } from './store/appStore'
 import { applyTheme } from './theme/themes'
 import './styles/global.css'
 import './styles/y2k.css'
+import './styles/ps1.css'
 
 async function bootstrap(): Promise<void> {
   const config = await window.api.config.get()

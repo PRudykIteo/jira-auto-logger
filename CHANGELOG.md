@@ -10,7 +10,15 @@ workflow picks the section whose version matches the one being published; a
 push with no matching section falls back to GitHub's auto-generated notes.
 Write for users, not for the commit log — see the `release` skill.
 
-## 0.1.19 — 2026-07-27
+## 0.1.21 — 2026-07-27
+
+- Added a **PS1 ✕ BIOS** theme — the original PlayStation boot screen as a work
+  app: CRT scanlines, a power-on flash, hard-beveled memory-card-manager panels,
+  dithered surfaces and the four face-button colours doing the semantic work.
+  Pick it under Settings → Appearance → Theme. (Honors "reduce motion" if you'd
+  rather skip the boot sequence.)
+
+## 0.1.20 — 2026-07-27
 
 - Added two **iteo** company themes — light and dark — built from the official
   brand palette (orange accent on graphite). Pick them under
@@ -19,7 +27,7 @@ Write for users, not for the commit log — see the `release` skill.
 - Fixed the clock icon in Settings → "Workday start" being almost invisible on
   the dark themes. Scrollbars and autofill now follow the theme too.
 
-## 0.1.18 — 2026-07-24
+## 0.1.19 — 2026-07-24
 
 - Added optional **anonymous usage telemetry** (Aptabase) to help guide what to
   work on next. It reports only anonymous sessions and a time-logged event
@@ -27,7 +35,7 @@ Write for users, not for the commit log — see the `release` skill.
   or any personal data. It's on by default; turn it off under
   Settings → Privacy & telemetry.
 
-## 0.1.15 — 2026-07-23
+## 0.1.17 — 2026-07-24
 
 - Added a gloriously over-the-top **Y2K ✧ Ultra** theme — Frutiger-Aero
   holographic backdrop, brushed-chrome header, aqua candy buttons and glossy

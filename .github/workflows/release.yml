@@ -43,6 +43,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Two commits so the CHANGELOG check can diff this push against the
+          # previous tip of main.
+          fetch-depth: 2
+      - name: Check the CHANGELOG entry matches the version being released
+        # A section numbered for a version that has since been taken would be
+        # silently ignored below and the release would ship with fallback
+        # notes. Stop before publishing so the number can be corrected.
+        # Skipped on manual runs, where HEAD~1 is an already-released push.
+        if: github.event_name == 'push'
+        run: node .github/scripts/check-changelog.js ${{ needs.version.outputs.version }}
+        shell: bash
       - name: Build release notes
         # Use the curated CHANGELOG section for this version as the release
         # body; fall back to GitHub's auto-generated notes when there is none.

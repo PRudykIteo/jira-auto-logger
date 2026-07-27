@@ -202,6 +202,36 @@ export const THEMES: Theme[] = [
   }
   },
   {
+    id: 'ps1',
+    nameKey: 'settings.themePs1',
+    variables: {
+      ...shared,
+      // Sony PlayStation BIOS: near-black blue CRT, and the four face-button
+      // colours doing the semantic work (○ red, △ green, ✕ blue) with the
+      // logo's yellow as the warning. Scanlines, dither and the hard bevels
+      // are layered on by the scoped `[data-theme='ps1']` rules in ps1.css.
+      '--color-scheme': 'dark',
+      '--color-bg': '#0a0a16',
+      '--color-bg-raised': '#16162b',
+      '--color-bg-hover': '#232347',
+      '--color-border': '#3c3c72',
+      '--color-text': '#e8e8f4',
+      '--color-text-muted': '#9a9ac4',
+      '--color-accent': '#6c8cff',
+      '--color-accent-contrast': '#06060f',
+      '--color-accent-soft': 'rgba(108, 140, 255, 0.18)',
+      '--color-danger': '#e4344a',
+      '--color-success': '#3dbf7a',
+      '--color-warning': '#ffc20e',
+      '--color-selection': 'rgba(108, 140, 255, 0.32)',
+      '--radius-sm': '0px',
+      '--radius-md': '2px',
+      '--radius-lg': '3px',
+      '--font-family': "Verdana, Tahoma, 'Segoe UI', sans-serif",
+      '--shadow-popup': '6px 6px 0 rgba(0, 0, 0, 0.65), 0 0 40px rgba(108, 140, 255, 0.22)'
+    }
+  },
+  {
     id: 'helloKitty',
     nameKey: 'settings.themeHelloKitty',
     variables: {
