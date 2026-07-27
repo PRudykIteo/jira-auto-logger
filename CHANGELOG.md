@@ -10,6 +10,15 @@ workflow picks the section whose version matches the one being published; a
 push with no matching section falls back to GitHub's auto-generated notes.
 Write for users, not for the commit log — see the `release` skill.
 
+## 0.1.19 — 2026-07-27
+
+- Added two **iteo** company themes — light and dark — built from the official
+  brand palette (orange accent on graphite). Pick them under
+  Settings → Appearance → Theme. They use the Codec Cold typeface when it's
+  installed on your machine and fall back to Verdana otherwise.
+- Fixed the clock icon in Settings → "Workday start" being almost invisible on
+  the dark themes. Scrollbars and autofill now follow the theme too.
+
 ## 0.1.18 — 2026-07-24
 
 - Added optional **anonymous usage telemetry** (Aptabase) to help guide what to

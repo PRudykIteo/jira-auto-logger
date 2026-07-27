@@ -175,6 +175,8 @@
     "theme": "Motyw",
     "themeDark": "Ciemny",
     "themeLight": "Jasny",
+    "themeIteoLight": "iteo — jasny",
+    "themeIteoDark": "iteo — ciemny",
     "themeWin95": "Windows 95",
     "themeFallout": "Terminal Fallout",
     "themeFalloutNV": "Fallout New Vegas",

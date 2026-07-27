@@ -2,6 +2,12 @@
   box-sizing: border-box;
 }
 
+:root {
+  /* Drives the variant Chromium paints native widgets in - notably the time
+     input's clock icon, which is otherwise near-black on the dark themes. */
+  color-scheme: var(--color-scheme, light);
+}
+
 html,
 body,
 #root {
