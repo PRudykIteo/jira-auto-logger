@@ -113,24 +113,23 @@
   }
 }
 
-/* Triangle, circle, cross, square - one gradient stop each, clipped to text. */
+/*
+ * Triangle, circle, cross, square. Drawn rather than typed: the Unicode glyphs
+ * for these come from different blocks, so their sizes, stroke weights and
+ * baselines never line up. As geometry we can also apply the optical
+ * corrections the real buttons have - the triangle runs slightly wider and the
+ * square slightly smaller than the circle, or they don't read as equal.
+ */
 [data-theme='ps1'] .app-header h1::after {
-  content: '△ ○ ✕ □';
+  content: '';
+  display: inline-block;
+  width: 76px;
+  height: 16px;
   margin-left: 16px;
-  font-size: 0.8em;
-  letter-spacing: 3px;
-  vertical-align: 2px;
-  background: linear-gradient(
-    90deg,
-    #3dbf7a 0 25%,
-    #e4344a 25% 50%,
-    #6c8cff 50% 75%,
-    #ff7ad9 75% 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: none;
+  vertical-align: -2px;
+  background-repeat: no-repeat;
+  background-size: 76px 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 16'%3E%3Cg fill='none' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 2.4 L13.3 11.7 L2.7 11.7 Z' stroke='%233dbf7a'/%3E%3Ccircle cx='28' cy='8' r='4.8' stroke='%23e4344a'/%3E%3Cpath d='M44.3 4.3 L51.7 11.7 M51.7 4.3 L44.3 11.7' stroke='%236c8cff'/%3E%3Crect x='63.9' y='3.9' width='8.2' height='8.2' stroke='%23ff7ad9'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 /* ---------- Memory-card-manager panels ---------- */
