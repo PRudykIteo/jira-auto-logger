@@ -41,7 +41,7 @@ and applied to whatever config was loaded (mock or real); an unknown id falls
 back to the default theme in `applyTheme`, so typos degrade gracefully.
 
 Valid ids come from `THEMES` in `src/renderer/src/theme/themes.ts`: `dark`,
-`light`, `iteoLight`, `iteoDark`, `win95`, `fallout`, `falloutNV`,
+`light`, `iteoLight`, `iteoDark`, `win95`, `fallout`, `falloutNV`, `ps1`,
 `helloKitty`, `y2k`.
 
 Prefer mock mode — it never persists, so a forced theme can't leak into your

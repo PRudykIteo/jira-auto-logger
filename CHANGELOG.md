@@ -10,6 +10,14 @@ workflow picks the section whose version matches the one being published; a
 push with no matching section falls back to GitHub's auto-generated notes.
 Write for users, not for the commit log — see the `release` skill.
 
+## 0.1.21 — 2026-07-27
+
+- Added a **PS1 ✕ BIOS** theme — the original PlayStation boot screen as a work
+  app: CRT scanlines, a power-on flash, hard-beveled memory-card-manager panels,
+  dithered surfaces and the four face-button colours doing the semantic work.
+  Pick it under Settings → Appearance → Theme. (Honors "reduce motion" if you'd
+  rather skip the boot sequence.)
+
 ## 0.1.19 — 2026-07-27
 
 - Added two **iteo** company themes — light and dark — built from the official
