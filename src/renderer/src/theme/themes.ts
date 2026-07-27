@@ -9,6 +9,10 @@ export interface Theme {
 }
 
 const shared = {
+  // Which variant Chromium draws native widgets in (the time input's clock
+  // icon, scrollbars, autofill). Dark themes override it; without it the icon
+  // is painted near-black and disappears into a dark input.
+  '--color-scheme': 'light',
   '--radius-sm': '6px',
   '--radius-md': '10px',
   '--radius-lg': '14px',
@@ -23,6 +27,7 @@ export const THEMES: Theme[] = [
     nameKey: 'settings.themeDark',
     variables: {
       ...shared,
+      '--color-scheme': 'dark',
       '--color-bg': '#111318',
       '--color-bg-raised': '#1a1d24',
       '--color-bg-hover': '#232733',
@@ -98,6 +103,7 @@ export const THEMES: Theme[] = [
       // stays reserved for text (as a full background its blue cast reads as
       // navy). Steps up from #27272e are kept neutral for the same reason.
       // Success and warning are lightened so they stay legible on it.
+      '--color-scheme': 'dark',
       '--color-bg': '#27272e',
       '--color-bg-raised': '#32323a',
       '--color-bg-hover': '#3e3e47',
@@ -147,6 +153,7 @@ export const THEMES: Theme[] = [
     variables: {
       ...shared,
       // Phosphor-green CRT terminal.
+      '--color-scheme': 'dark',
       '--color-bg': '#031008',
       '--color-bg-raised': '#07190d',
       '--color-bg-hover': '#0c2a15',
@@ -173,6 +180,7 @@ export const THEMES: Theme[] = [
   variables: {
     ...shared,
     // Fallout: New Vegas amber Pip-Boy CRT.
+    '--color-scheme': 'dark',
     '--color-bg': '#120a03',
     '--color-bg-raised': '#1a1005',
     '--color-bg-hover': '#261708',

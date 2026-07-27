@@ -16,6 +16,8 @@ Write for users, not for the commit log — see the `release` skill.
   brand palette (orange accent on graphite). Pick them under
   Settings → Appearance → Theme. They use the Codec Cold typeface when it's
   installed on your machine and fall back to Verdana otherwise.
+- Fixed the clock icon in Settings → "Workday start" being almost invisible on
+  the dark themes. Scrollbars and autofill now follow the theme too.
 
 ## 0.1.18 — 2026-07-24
 
