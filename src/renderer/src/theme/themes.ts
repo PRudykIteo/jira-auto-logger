@@ -61,6 +61,61 @@ export const THEMES: Theme[] = [
     }
   },
   {
+    id: 'iteoLight',
+    nameKey: 'settings.themeIteoLight',
+    variables: {
+      ...shared,
+      // iteo brand palette. Background, borders, graphite text and the orange
+      // accent come straight from the brandbook; success reuses the brand
+      // green. The brandbook defines no red, so the danger colour is picked to
+      // sit far enough from the orange accent to never be mistaken for it.
+      '--color-bg': '#f2f3f7',
+      '--color-bg-raised': '#ffffff',
+      '--color-bg-hover': '#e6e7eb',
+      '--color-border': '#d4d4d5',
+      '--color-text': '#040429',
+      '--color-text-muted': '#525258',
+      '--color-accent': '#ff6500',
+      // Dark-on-orange, not the brandbook's white-on-orange: white only
+      // reaches 2.9:1 against #ff6500, which is unreadable on small UI labels.
+      '--color-accent-contrast': '#040429',
+      '--color-accent-soft': 'rgba(255, 101, 0, 0.14)',
+      '--color-danger': '#d32f45',
+      '--color-success': '#00a150',
+      '--color-warning': '#b67a00',
+      '--color-selection': 'rgba(255, 101, 0, 0.22)',
+      '--font-family': "'Codec Cold', Verdana, 'Segoe UI', sans-serif",
+      '--shadow-popup': '0 12px 40px rgba(4, 4, 41, 0.18)'
+    }
+  },
+  {
+    id: 'iteoDark',
+    nameKey: 'settings.themeIteoDark',
+    variables: {
+      ...shared,
+      // Same brand palette on the graphite surface colour. #27272e is what the
+      // brandbook actually fills dark areas with; #040429 is the ink colour and
+      // stays reserved for text (as a full background its blue cast reads as
+      // navy). Steps up from #27272e are kept neutral for the same reason.
+      // Success and warning are lightened so they stay legible on it.
+      '--color-bg': '#27272e',
+      '--color-bg-raised': '#32323a',
+      '--color-bg-hover': '#3e3e47',
+      '--color-border': '#4b4b55',
+      '--color-text': '#f2f3f7',
+      '--color-text-muted': '#a9a9ab',
+      '--color-accent': '#ff6500',
+      '--color-accent-contrast': '#040429',
+      '--color-accent-soft': 'rgba(255, 101, 0, 0.18)',
+      '--color-danger': '#ff5266',
+      '--color-success': '#10c46b',
+      '--color-warning': '#ffcb4d',
+      '--color-selection': 'rgba(255, 101, 0, 0.30)',
+      '--font-family': "'Codec Cold', Verdana, 'Segoe UI', sans-serif",
+      '--shadow-popup': '0 12px 40px rgba(0, 0, 0, 0.55)'
+    }
+  },
+  {
     id: 'win95',
     nameKey: 'settings.themeWin95',
     variables: {
