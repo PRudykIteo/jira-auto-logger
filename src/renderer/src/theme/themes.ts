@@ -287,6 +287,44 @@ export const THEMES: Theme[] = [
       '--shadow-popup':
         '0 0 0 2px #ffffff, 0 16px 44px rgba(0, 40, 120, 0.45), 0 0 34px rgba(0, 200, 255, 0.55)'
     }
+  },
+  {
+    id: 'maaSnEk',
+    nameKey: 'settings.themeMaaSnEk',
+    variables: {
+      ...shared,
+      // Protest: black paint on a wall, cardboard placards and screaming red.
+      // Everything is squared off (nobody rounds the corners of a hand-cut
+      // placard) and the body font is a condensed photocopy-leaflet sans; the
+      // heavy poster typeface, the drips, the tape and the slogans are layered
+      // on by the scoped `[data-theme='maaSnEk']` rules in maa-sn-ek.css.
+      //
+      // The accent is the rage red, which leaves no room for a red danger
+      // colour that anyone could tell apart from it - so danger is pushed
+      // towards crimson-pink AND destructive buttons get hazard stripes in the
+      // scoped CSS, which is what actually keeps them distinct from primary.
+      '--color-scheme': 'dark',
+      '--color-bg': '#120202',
+      '--color-bg-raised': '#1e0505',
+      '--color-bg-hover': '#320909',
+      '--color-border': '#61100f',
+      // Off-white poster paper rather than pure white - pure white on this much
+      // red vibrates.
+      '--color-text': '#f6ece2',
+      '--color-text-muted': '#c79a8f',
+      '--color-accent': '#ee1111',
+      '--color-accent-contrast': '#0d0101',
+      '--color-accent-soft': 'rgba(238, 17, 17, 0.2)',
+      '--color-danger': '#ff4d6d',
+      '--color-success': '#3fcf6a',
+      '--color-warning': '#ffd400',
+      '--color-selection': 'rgba(238, 17, 17, 0.38)',
+      '--radius-sm': '0px',
+      '--radius-md': '0px',
+      '--radius-lg': '0px',
+      '--font-family': "'Arial Narrow', Arial, 'Helvetica Neue', 'Segoe UI', sans-serif",
+      '--shadow-popup': '10px 10px 0 rgba(0, 0, 0, 0.8), 0 0 44px rgba(238, 17, 17, 0.35)'
+    }
   }
 ]
 

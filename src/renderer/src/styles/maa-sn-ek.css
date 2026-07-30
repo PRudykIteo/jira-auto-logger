@@ -1,0 +1,518 @@
+/*
+ * maa-sn-ek — the protest skin for the `maaSnEk` theme.
+ *
+ * Reference is a picket line: black paint rolled onto a wall, cardboard
+ * placards taped up crooked, hazard tape across the exits and one slogan
+ * shouted over everything else. Nothing is straight, nothing is rounded and
+ * nothing is quiet.
+ *
+ * Everything is scoped under `[data-theme="maaSnEk"]` (the attribute
+ * `applyTheme` stamps on <html>), so switching away drops all of it and nothing
+ * leaks. Base variables live in themes.ts; this file adds what variables can't
+ * express.
+ *
+ * The slogans are hardcoded Polish and deliberately not run through i18n:
+ * they are the artwork of this theme (the same way the PS1 theme draws the face
+ * buttons), not UI copy - a chant doesn't get a translation, and the whole
+ * theme is a Polish pun on "logowanie"/"nękanie".
+ */
+
+[data-theme='maaSnEk'] {
+  /* Poster typeface for everything that shouts. The body font stays the
+     condensed photocopy sans from themes.ts - Impact at 13px is unreadable. */
+  --font-display: Impact, Haettenschweiler, 'Arial Narrow Bold', 'Arial Black', sans-serif;
+  --maa-red: #ee1111;
+  --maa-hazard: #ffd400;
+}
+
+/* ---------- The wall ---------- */
+
+[data-theme='maaSnEk'] body {
+  background:
+    radial-gradient(45% 35% at 12% 14%, rgba(238, 17, 17, 0.3), transparent 100%),
+    radial-gradient(38% 30% at 88% 78%, rgba(238, 17, 17, 0.24), transparent 100%),
+    /* Roller streaks: black paint dragged across the wall in one direction. */
+      repeating-linear-gradient(114deg, rgba(0, 0, 0, 0.5) 0 16px, transparent 16px 34px),
+    linear-gradient(180deg, #1c0303 0%, #120202 58%, #070101 100%);
+  background-attachment: fixed;
+  background-size: 140% 140%, 140% 140%, auto, auto;
+  animation: maa-rage 18s ease-in-out infinite;
+}
+
+/* The red never settles - it swells like a crowd catching its breath. */
+@keyframes maa-rage {
+  0%,
+  100% {
+    background-position: 0% 0%, 100% 100%, 0 0, 0 0;
+  }
+  50% {
+    background-position: 8% 6%, 92% 94%, 0 0, 0 0;
+  }
+}
+
+/* Reserve the strip the picket line below occupies, so it never covers the UI. */
+[data-theme='maaSnEk'] .app-shell {
+  padding-bottom: 28px;
+}
+
+/*
+ * Picket line across the bottom of the screen: hazard tape with the chant on
+ * it. Sits above the modal layer on purpose (the tape is across the whole
+ * building, not just the room) with pointer-events off so nothing below it
+ * becomes unclickable.
+ */
+[data-theme='maaSnEk'] body::before {
+  content: '✊ ZMUSZANIE PRACOWNIKÓW DO LOGOWANIA JIRY TO WYSTĘPEK PRZECIWKO KONSTYTUCJI ✊';
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9998;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 12px;
+  pointer-events: none;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  /* Long chant, one line, never wrapped: the size is what keeps it inside a
+     narrow window (it clips from both ends before it would ever wrap). */
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--maa-hazard);
+  /* Black halo so yellow stays legible where it crosses a red stripe. */
+  text-shadow: 0 0 3px #000, 2px 2px 0 #000, -2px 2px 0 #000;
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--maa-red) 0 16px,
+    #0a0000 16px 32px
+  );
+  border-top: 3px solid #000;
+  box-shadow: 0 -8px 26px rgba(0, 0, 0, 0.85);
+  animation: maa-tape 1.4s linear infinite;
+}
+
+/* Tape marching past, the way a line of people does. */
+@keyframes maa-tape {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 45.26px 0;
+  }
+}
+
+/* ---------- THE slogan ---------- */
+
+/*
+ * A placard wedged in above the content. Sticky rather than static: the point
+ * of a slogan is that you can't scroll away from it. `.app-main` is a column
+ * flexbox, so this pseudo-element lands as the first item in it.
+ *
+ * It bleeds into `.app-main`'s own padding (negative margins) and stays
+ * deliberately short: the month grid below shrinks to whatever is left, and a
+ * taller placard pushed the calendar past the point where day tiles could still
+ * show their entries.
+ */
+[data-theme='maaSnEk'] .app-main::before {
+  content: 'LOGOWANIE TO NĘKANIE!';
+  flex: 0 0 auto;
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  margin: -12px -12px 12px;
+  padding: 3px 16px 5px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(18px, 3.2vw, 34px);
+  line-height: 1.05;
+  letter-spacing: 3px;
+  color: var(--maa-red);
+  background: #000;
+  /* Torn poster edges - hand-cut cardboard, never a clean rectangle. */
+  clip-path: polygon(
+    0 6%,
+    4% 0,
+    28% 4%,
+    52% 0,
+    77% 5%,
+    96% 0,
+    100% 8%,
+    99% 94%,
+    82% 100%,
+    58% 95%,
+    31% 100%,
+    9% 96%,
+    0 92%
+  );
+  text-shadow:
+    3px 3px 0 #2b0000,
+    0 0 22px rgba(238, 17, 17, 0.6);
+  /* Kept under a degree on purpose: the placard is as wide as the window, so
+     every extra degree swings its far edge tens of pixels out of the layout box
+     and over the toolbar underneath. */
+  transform: rotate(-0.5deg);
+  animation: maa-shout 1.6s ease-in-out infinite;
+}
+
+/* Chant rhythm: two beats, the second one louder. */
+@keyframes maa-shout {
+  0%,
+  100% {
+    transform: rotate(-0.5deg) scale(1);
+  }
+  20% {
+    transform: rotate(-0.75deg) scale(1.01);
+  }
+  40% {
+    transform: rotate(-0.3deg) scale(1);
+  }
+  60% {
+    transform: rotate(-0.9deg) scale(1.018);
+  }
+  80% {
+    transform: rotate(-0.35deg) scale(1);
+  }
+}
+
+/* ---------- Painted-over header ---------- */
+
+[data-theme='maaSnEk'] .app-header {
+  position: relative;
+  /* Above the sticky slogan, so the placard slides under the paint. */
+  z-index: 7;
+  background: linear-gradient(180deg, #0b0000 0%, #000000 100%);
+  border-bottom: none;
+}
+
+/* Wet black paint running off the bottom edge of the header. */
+[data-theme='maaSnEk'] .app-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -25px;
+  height: 26px;
+  pointer-events: none;
+  background-repeat: repeat-x;
+  background-size: 140px 26px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 26'%3E%3Cg fill='%23000'%3E%3Crect width='140' height='9'/%3E%3Crect x='16' y='8' width='5' height='9'/%3E%3Ccircle cx='18.5' cy='17' r='2.5'/%3E%3Crect x='48' y='8' width='4' height='15'/%3E%3Ccircle cx='50' cy='23' r='2'/%3E%3Crect x='84' y='8' width='6' height='6'/%3E%3Ccircle cx='87' cy='14' r='3'/%3E%3Crect x='112' y='8' width='4' height='11'/%3E%3Ccircle cx='114' cy='19' r='2'/%3E%3Crect x='131' y='8' width='3' height='6'/%3E%3Ccircle cx='132.5' cy='14' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+[data-theme='maaSnEk'] .app-header h1 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #f6ece2;
+  /* Misregistered screen print - the red plate landed off the black one. */
+  text-shadow: -2px 0 var(--maa-red), 2px 0 rgba(255, 212, 0, 0.5);
+  animation: maa-jitter 5s steps(1) infinite;
+}
+
+/* Somebody keeps bumping the sign. */
+@keyframes maa-jitter {
+  0%,
+  88%,
+  100% {
+    transform: translate(0, 0);
+  }
+  90% {
+    transform: translate(1px, -1px);
+  }
+  93% {
+    transform: translate(-1px, 1px);
+  }
+  96% {
+    transform: translate(1px, 1px);
+  }
+}
+
+/*
+ * Two picket signs after the title. Drawn rather than typed for the same
+ * reason the PS1 theme draws its face buttons: no font ships a placard, and as
+ * geometry the sticks can lean the way real ones do in a crowd.
+ */
+[data-theme='maaSnEk'] .app-header h1::after {
+  content: '';
+  display: inline-block;
+  width: 46px;
+  height: 20px;
+  margin-left: 14px;
+  vertical-align: -4px;
+  background-repeat: no-repeat;
+  background-size: 46px 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 20'%3E%3Cpath d='M8 19 L12 7' stroke='%23c9a06a' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M38 19 L34 7' stroke='%23c9a06a' stroke-width='2.2' stroke-linecap='round'/%3E%3Cg transform='rotate(-9 12 7)'%3E%3Crect x='3.5' y='1' width='17' height='11.5' fill='%23ee1111' stroke='%23000' stroke-width='1.4'/%3E%3Cpath d='M12 3.4 V7.8' stroke='%23000' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='10' r='1.1' fill='%23000'/%3E%3C/g%3E%3Cg transform='rotate(9 34 7)'%3E%3Crect x='25.5' y='1' width='17' height='11.5' fill='%23ee1111' stroke='%23000' stroke-width='1.4'/%3E%3Cpath d='M34 3.4 V7.8' stroke='%23000' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='34' cy='10' r='1.1' fill='%23000'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ---------- Placards ---------- */
+
+[data-theme='maaSnEk'] .card,
+[data-theme='maaSnEk'] .modal {
+  position: relative;
+  background: linear-gradient(180deg, #260709 0%, #170303 100%);
+  border: 2px solid var(--maa-red);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.75);
+}
+
+/* Nothing gets hung up straight. Alternating so a stack of cards reads as a
+   pile of leaflets rather than a repeated tilt. */
+[data-theme='maaSnEk'] .card {
+  transform: rotate(-0.3deg);
+}
+
+[data-theme='maaSnEk'] .card:nth-of-type(even) {
+  transform: rotate(0.34deg);
+}
+
+/* Strip of packing tape holding the placard to the wall. */
+[data-theme='maaSnEk'] .card::before,
+[data-theme='maaSnEk'] .modal::before {
+  content: '';
+  position: absolute;
+  top: -11px;
+  left: 22px;
+  width: 68px;
+  height: 22px;
+  pointer-events: none;
+  background: rgba(255, 212, 0, 0.34);
+  border-left: 1px dashed rgba(0, 0, 0, 0.4);
+  border-right: 1px dashed rgba(0, 0, 0, 0.4);
+  transform: rotate(-4deg);
+}
+
+[data-theme='maaSnEk'] .modal-header {
+  background: #000;
+  border-bottom: 3px solid var(--maa-red);
+}
+
+[data-theme='maaSnEk'] .modal-header h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--maa-red);
+}
+
+[data-theme='maaSnEk'] .modal-footer {
+  border-top: 3px solid var(--maa-red);
+}
+
+/* ---------- Stamped buttons ---------- */
+
+[data-theme='maaSnEk'] .btn {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border: 2px solid #000;
+  background: #2c0808;
+  color: #f6ece2;
+  box-shadow: 3px 3px 0 #000;
+}
+
+[data-theme='maaSnEk'] .btn:hover:not(:disabled) {
+  background: #431010;
+}
+
+[data-theme='maaSnEk'] .btn:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+[data-theme='maaSnEk'] .btn-primary {
+  background: linear-gradient(180deg, #ff2a2a 0%, #ee1111 55%, #a80c0c 100%);
+  border-color: #000;
+  color: #0d0101;
+}
+
+/* The demand always ends in an exclamation mark. Negative margin cancels the
+   flex gap `.btn` puts between its children, so it hugs the label. */
+[data-theme='maaSnEk'] .btn-primary::after {
+  content: '!';
+  margin-left: -5px;
+}
+
+[data-theme='maaSnEk'] .btn-ghost {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+[data-theme='maaSnEk'] .btn-ghost:hover:not(:disabled) {
+  background: #2c0808;
+}
+
+/*
+ * Hazard tape, not red: with the accent already screaming red, colour alone
+ * can't separate a destructive button from the primary one, so the destructive
+ * one gets a pattern instead.
+ */
+[data-theme='maaSnEk'] .btn-danger-solid {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--maa-hazard) 0 10px,
+    #0a0000 10px 20px
+  );
+  border-color: #000;
+  color: var(--maa-hazard);
+  text-shadow: 0 0 3px #000, 1px 1px 0 #000, -1px 1px 0 #000;
+}
+
+/* ---------- Spray-painted tabs ---------- */
+
+[data-theme='maaSnEk'] .nav-tab {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #c79a8f;
+}
+
+[data-theme='maaSnEk'] .nav-tab:hover:not(.active) {
+  color: var(--maa-hazard);
+}
+
+[data-theme='maaSnEk'] .nav-tab.active {
+  background: var(--maa-red);
+  color: #0d0101;
+  box-shadow: 3px 3px 0 #000;
+  transform: rotate(-1deg);
+}
+
+/* ---------- Petition forms ---------- */
+
+[data-theme='maaSnEk'] input,
+[data-theme='maaSnEk'] textarea,
+[data-theme='maaSnEk'] select {
+  background: #0a0000;
+  border: 2px solid #61100f;
+  color: #f6ece2;
+  caret-color: var(--maa-red);
+}
+
+[data-theme='maaSnEk'] input:focus,
+[data-theme='maaSnEk'] textarea:focus,
+[data-theme='maaSnEk'] select:focus {
+  border-color: var(--maa-hazard);
+  box-shadow: 0 0 0 3px rgba(238, 17, 17, 0.35);
+}
+
+/* .chip is a pill everywhere else; this theme rounds nothing. */
+[data-theme='maaSnEk'] .chip {
+  border-radius: 0;
+  border: 2px solid #000;
+  background: #2c0808;
+  box-shadow: 2px 2px 0 #000;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+[data-theme='maaSnEk'] .chip.selected {
+  background: var(--maa-red);
+  border-color: #000;
+  color: #0d0101;
+}
+
+/* ---------- Calendar as a wall of leaflets ---------- */
+
+[data-theme='maaSnEk'] .calendar-month-label,
+[data-theme='maaSnEk'] .calendar-weekday {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+[data-theme='maaSnEk'] .calendar-weekday {
+  color: var(--maa-red);
+}
+
+[data-theme='maaSnEk'] .calendar-day {
+  border: 2px solid #43090b;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55);
+}
+
+/* Today is stamped, not circled. */
+[data-theme='maaSnEk'] .calendar-day.today .calendar-day-number {
+  border-radius: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 1px;
+  transform: rotate(-3deg);
+  box-shadow: 2px 2px 0 #000;
+}
+
+/*
+ * The slogan and the picket line cost the month grid about 17px per row, which
+ * is exactly enough to push a day tile under the height where a single entry
+ * still fits - every populated day then showed nothing but "+N more". So this
+ * theme raises the floor on row height: when the window is too short, the grid
+ * scrolls internally (its toolbar stays put) instead of hiding every entry.
+ */
+[data-theme='maaSnEk'] .calendar-grid {
+  /* 80px, not 75 as elsewhere: the tile's 2px protest border eats into the
+     content box the entries are measured against. */
+  grid-auto-rows: minmax(80px, 1fr);
+}
+
+[data-theme='maaSnEk'] .calendar-entry {
+  border-radius: 0;
+  border-left: 3px solid var(--entry-color, var(--maa-red));
+}
+
+/* The picket line owns the bottom strip of the window, and Settings docks its
+   save bar to `bottom: 0` - without this it ends up behind the tape. */
+[data-theme='maaSnEk'] .settings-save-bar {
+  bottom: 28px;
+}
+
+/* ---------- Barricade scrollbars ---------- */
+
+[data-theme='maaSnEk'] ::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+[data-theme='maaSnEk'] ::-webkit-scrollbar-track {
+  background: #0a0000;
+}
+
+[data-theme='maaSnEk'] ::-webkit-scrollbar-thumb {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--maa-red) 0 8px,
+    #0a0000 8px 16px
+  );
+  border: 2px solid #000;
+}
+
+[data-theme='maaSnEk'] ::selection {
+  background: var(--maa-red);
+  color: #0d0101;
+}
+
+/* ---------- Shouted feedback ---------- */
+
+[data-theme='maaSnEk'] .banner-error,
+[data-theme='maaSnEk'] .funny-loader {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background: #000;
+  border: 2px solid var(--maa-red);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.7);
+}
+
+/* Keep the picture still for anyone who'd rather it stayed still - the placard
+   shake and the marching tape are the two that would otherwise never stop. */
+@media (prefers-reduced-motion: reduce) {
+  [data-theme='maaSnEk'] body,
+  [data-theme='maaSnEk'] body::before,
+  [data-theme='maaSnEk'] .app-header h1,
+  [data-theme='maaSnEk'] .app-main::before {
+    animation: none;
+  }
+}
