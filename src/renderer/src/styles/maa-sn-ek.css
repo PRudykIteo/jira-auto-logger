@@ -55,6 +55,14 @@
   padding-bottom: 28px;
 }
 
+/* Nothing here is hung up straight - the placard is tilted and the cards sit
+   crooked - and a rotated box reaches a hair past its own layout box. Sideways
+   that is never worth a scrollbar (which in this theme is 14px of stolen
+   height), so clip it. */
+[data-theme='maaSnEk'] .app-main {
+  overflow-x: hidden;
+}
+
 /*
  * Picket line across the bottom of the screen: hazard tape with the chant on
  * it. Sits above the modal layer on purpose (the tape is across the whole
@@ -157,23 +165,36 @@
   animation: maa-shout 1.6s ease-in-out infinite;
 }
 
-/* Chant rhythm: two beats, the second one louder. */
+/*
+ * Chant rhythm: two beats, the second one louder. The beat is carried by the
+ * glow and by a translate that only ever moves up and left - never by scale or
+ * by a changing angle. On an element this wide, growing it a single percent put
+ * ~2px past the right edge of `.app-main`, which popped a 14px horizontal
+ * scrollbar, stole 14px of height from the calendar and re-laid the whole grid
+ * out - twice a second. Moving towards the start edges cannot overflow a
+ * scroll container.
+ */
 @keyframes maa-shout {
   0%,
   100% {
-    transform: rotate(-0.5deg) scale(1);
+    transform: rotate(-0.5deg) translate(0, 0);
+    text-shadow: 3px 3px 0 #2b0000, 0 0 18px rgba(238, 17, 17, 0.5);
   }
   20% {
-    transform: rotate(-0.75deg) scale(1.01);
+    transform: rotate(-0.5deg) translate(-1px, -1px);
+    text-shadow: 3px 3px 0 #2b0000, 0 0 30px rgba(238, 17, 17, 0.8);
   }
   40% {
-    transform: rotate(-0.3deg) scale(1);
+    transform: rotate(-0.5deg) translate(0, 0);
+    text-shadow: 3px 3px 0 #2b0000, 0 0 18px rgba(238, 17, 17, 0.5);
   }
   60% {
-    transform: rotate(-0.9deg) scale(1.018);
+    transform: rotate(-0.5deg) translate(-2px, -2px);
+    text-shadow: 3px 3px 0 #2b0000, 0 0 40px rgba(255, 40, 40, 0.95);
   }
   80% {
-    transform: rotate(-0.35deg) scale(1);
+    transform: rotate(-0.5deg) translate(0, -1px);
+    text-shadow: 3px 3px 0 #2b0000, 0 0 22px rgba(238, 17, 17, 0.6);
   }
 }
 
@@ -229,6 +250,13 @@
   96% {
     transform: translate(1px, 1px);
   }
+}
+
+/* The version reads as the serial number stamped on the placard. */
+[data-theme='maaSnEk'] .app-version {
+  font-family: var(--font-display);
+  letter-spacing: 1px;
+  color: var(--maa-hazard);
 }
 
 /*
