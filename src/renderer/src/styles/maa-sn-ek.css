@@ -176,12 +176,25 @@
       transparent 4.8px
     ),
     var(--maa-weave),
-    /* Creases, from being folded in a bag until this morning. */
-      repeating-linear-gradient(
-        97deg,
-        rgba(0, 0, 0, 0.09) 0 2px,
-        rgba(255, 255, 255, 0.07) 2px 5px,
-        transparent 5px 43px
+    /* Creases, from being folded in a bag until this morning. Four of them, at
+       nothing-like-even distances and feathered by the gradient interpolation
+       itself: a `repeating-linear-gradient` with hard stops was mathematically
+       even and read as a printed stripe pattern, not as folded cloth. */
+      linear-gradient(
+        96deg,
+        transparent 0 8%,
+        rgba(0, 0, 0, 0.055) 9.4%,
+        rgba(255, 255, 255, 0.05) 10.6%,
+        transparent 12% 30%,
+        rgba(0, 0, 0, 0.05) 31.5%,
+        rgba(255, 255, 255, 0.045) 32.6%,
+        transparent 34% 55%,
+        rgba(0, 0, 0, 0.06) 56.4%,
+        rgba(255, 255, 255, 0.05) 57.6%,
+        transparent 59% 79%,
+        rgba(0, 0, 0, 0.05) 80.5%,
+        rgba(255, 255, 255, 0.045) 81.6%,
+        transparent 83% 100%
       ),
     /* Light catches the cloth where it is pulled tight between the two ropes
        and loses it towards the slack bottom edge. Shading it dark at BOTH the
