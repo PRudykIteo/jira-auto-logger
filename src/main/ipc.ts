@@ -175,7 +175,11 @@ export function registerIpcHandlers(telemetry: TelemetryService): UpdateService 
   )
 
   ipcMain.handle(IPC_CHANNELS.reportsGenerate, (_e, request: ReportRequest) =>
-    toResult(IPC_CHANNELS.reportsGenerate, () => reports.generate(request))
+    toResult(IPC_CHANNELS.reportsGenerate, async () => {
+      const result = await reports.generate(request)
+      telemetry.trackReportGenerated()
+      return result
+    })
   )
   ipcMain.handle(IPC_CHANNELS.reportsGetReminder, () => reports.getReminder())
   ipcMain.handle(IPC_CHANNELS.reportsReveal, (_e, filePath: string) =>

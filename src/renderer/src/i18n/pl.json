@@ -216,7 +216,7 @@
     "updateManualOnly": "Na tej platformie (niepodpisany build) aktualizacja jest ręczna — pokażemy link do pobrania nowej wersji.",
     "sectionPrivacy": "Prywatność i telemetria",
     "telemetryEnabled": "Udostępniaj anonimowe dane o użyciu",
-    "telemetryHint": "Pomaga ulepszać aplikację, wysyłając anonimowe dane o użyciu: zdarzenie uruchomienia oraz zalogowania czasu (liczba wpisów i suma godzin), a także wersję aplikacji i system, które platforma dodaje automatycznie. Nie wysyłamy kluczy zadań, opisów, danych logowania ani żadnych danych osobowych. Korzystamy z Aptabase; możesz to wyłączyć w każdej chwili."
+    "telemetryHint": "Pomaga ulepszać aplikację, wysyłając anonimowe dane o użyciu: zdarzenie uruchomienia, zalogowania czasu (liczba wpisów i suma godzin) oraz samo zdarzenie wygenerowania raportu (bez żadnych szczegółów), a także wersję aplikacji i system, które platforma dodaje automatycznie. Nie wysyłamy kluczy zadań, opisów, treści raportów, danych logowania ani żadnych danych osobowych. Korzystamy z Aptabase; możesz to wyłączyć w każdej chwili."
   },
   "reports": {
     "title": "Raporty PDF",
