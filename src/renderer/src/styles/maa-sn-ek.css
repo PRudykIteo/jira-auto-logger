@@ -24,31 +24,28 @@
 
 [data-theme='maaSnEk'] {
   /*
-   * Poster typeface, for signage only - the title, the tabs, headings, the
-   * stamps. It deliberately does NOT reach the buttons and chips any more:
-   * Impact on every control in the app made the whole UI one printed poster.
-   * The body font stays the condensed photocopy sans from themes.ts (Impact at
-   * 13px is unreadable).
+   * The poster face, reserved for the two slogans: the banner and the plank.
+   * Those are the protest's printed voice and they want the heaviest condensed
+   * type there is - it is everything AROUND them that shouldn't be Impact too,
+   * or the whole app reads as one printed poster.
    */
   --font-display: Impact, Haettenschweiler, 'Arial Narrow Bold', 'Arial Black', sans-serif;
 
   /*
-   * Everything painted by hand - the banner and the plank - is lettered by hand
-   * too. All the candidates here ship with the OS (Ink Free is Windows 10+,
-   * Segoe Print Vista+, Marker Felt and Chalkboard are macOS), so nothing is
-   * downloaded and nothing is licensed.
+   * Hand lettering, for what this theme paints onto the app itself - the title
+   * daubed on the header, the tabs, the headings, the stamps. Every candidate
+   * ships with the OS (Segoe Print is Vista+, Comic Sans is everywhere, Marker
+   * Felt and Chalkboard are macOS), so nothing is downloaded or licensed.
    *
-   * Ink Free leads because it is the only handwriting face on Windows narrow
-   * enough to keep the whole slogan on one line at the banner's size, and
-   * because it draws Ę itself - Bradley Hand substitutes that glyph from
-   * another font, which shows badly in a Polish slogan.
+   * Weight 700 at every use site: these are small sizes, and the regular cut of
+   * a handwriting face gets thin and hard to read under 14px.
    *
-   * The stack ends in the poster face on purpose: on a machine with none of
-   * these installed the slogans stay exactly as they were rather than falling
-   * back to some arbitrary serif.
+   * The stack ends in the poster face on purpose: on a machine with no
+   * handwriting font installed, everything here stays exactly as it was rather
+   * than dropping to an arbitrary serif.
    */
-  --font-paint: 'Ink Free', 'Segoe Print', 'Marker Felt', 'Chalkboard SE', 'Bradley Hand',
-    'Comic Sans MS', var(--font-display);
+  --font-paint: 'Segoe Print', 'Comic Sans MS', 'Marker Felt', 'Chalkboard SE', 'Bradley Hand',
+    var(--font-display);
   --maa-red: #e0322b;
   --maa-hazard: #ffd400;
   --maa-board: #c19a68;
@@ -131,13 +128,11 @@
   padding: 0 12px;
   pointer-events: none;
   white-space: nowrap;
-  font-family: var(--font-paint);
-  font-weight: 700;
-  /* Long chant, one line, never wrapped: the size and the absent tracking are
-     what keep it inside a narrow window (it clips from both ends before it
-     would ever wrap). */
-  font-size: 14px;
-  letter-spacing: 0;
+  font-family: var(--font-display);
+  /* Long chant, one line, never wrapped: the size is what keeps it inside a
+     narrow window (it clips from both ends before it would ever wrap). */
+  font-size: 13px;
+  letter-spacing: 1px;
   color: #f2efe8;
   /* Second pass of the brush, slightly off - hand-painted, not printed. */
   text-shadow: 1px 1px 0 rgba(224, 50, 43, 0.9);
@@ -178,13 +173,10 @@
      lettering has to sit above it. */
   padding: 7px 16px 15px;
   text-align: center;
-  font-family: var(--font-paint);
-  font-weight: 700;
+  font-family: var(--font-display);
   font-size: clamp(18px, 3.2vw, 34px);
-  /* Handwriting needs the room the poster face didn't: taller lines for the
-     ascenders and no tracking, because brush letters already sit apart. */
-  line-height: 1.15;
-  letter-spacing: 0;
+  line-height: 1.05;
+  letter-spacing: 3px;
   /* Red paint on an old sheet, brushed on by hand - never quite even, and dark
      enough not to glare off the cloth. */
   color: #b81f18;
@@ -302,11 +294,11 @@
 }
 
 [data-theme='maaSnEk'] .app-header h1 {
-  font-family: var(--font-display);
+  font-family: var(--font-paint);
   font-size: 19px;
-  font-weight: 400;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   color: #f2efe8;
   /* Misregistered screen print - the red plate landed off the black one. */
   text-shadow: -2px 0 var(--maa-red);
@@ -402,10 +394,10 @@
 }
 
 [data-theme='maaSnEk'] .modal-header h2 {
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-family: var(--font-paint);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   color: var(--maa-red);
 }
 
@@ -481,9 +473,10 @@
 /* ---------- Spray-painted tabs ---------- */
 
 [data-theme='maaSnEk'] .nav-tab {
-  font-family: var(--font-display);
+  font-family: var(--font-paint);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   color: #9c9c96;
 }
 
@@ -587,8 +580,8 @@
 /* Stamped, not bubbled. */
 [data-theme='maaSnEk'] .report-section-number {
   border-radius: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-family: var(--font-paint);
+  font-weight: 700;
   transform: rotate(-3deg);
   box-shadow: 2px 2px 0 #000;
 }
@@ -609,10 +602,10 @@
 
 [data-theme='maaSnEk'] .calendar-month-label,
 [data-theme='maaSnEk'] .calendar-weekday {
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-family: var(--font-paint);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 [data-theme='maaSnEk'] .calendar-weekday {
@@ -627,9 +620,9 @@
 /* Today is stamped, not circled. */
 [data-theme='maaSnEk'] .calendar-day.today .calendar-day-number {
   border-radius: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 1px;
+  font-family: var(--font-paint);
+  font-weight: 700;
+  letter-spacing: 0;
   transform: rotate(-3deg);
   box-shadow: 2px 2px 0 #000;
 }
@@ -687,9 +680,10 @@
 
 [data-theme='maaSnEk'] .banner-error,
 [data-theme='maaSnEk'] .funny-loader {
-  font-family: var(--font-display);
+  font-family: var(--font-paint);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.5px;
   background: #0b0b0d;
   border: 2px solid var(--maa-red);
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.7);
