@@ -1,10 +1,15 @@
 /*
  * maa-sn-ek — the protest skin for the `maaSnEk` theme.
  *
- * Reference is a picket line: black paint rolled onto a wall, cardboard
- * placards taped up crooked, hazard tape across the exits and one slogan
- * shouted over everything else. Nothing is straight, nothing is rounded and
- * nothing is quiet.
+ * Reference is a picket line: a concrete wall, black paint rolled over it,
+ * cardboard placards taped up crooked and one slogan shouted over everything
+ * else. Nothing is straight, nothing is rounded and nothing is quiet.
+ *
+ * The surfaces stay neutral grey and red is treated as paint - it appears on
+ * the slogan, the active tab and the primary action, and nowhere else. Red
+ * surfaces plus a red accent plus diagonal stripes everywhere turned this into
+ * a cold-war propaganda poster; a street is grey, and the red is what somebody
+ * brought with them.
  *
  * Everything is scoped under `[data-theme="maaSnEk"]` (the attribute
  * `applyTheme` stamps on <html>), so switching away drops all of it and nothing
@@ -21,33 +26,29 @@
   /* Poster typeface for everything that shouts. The body font stays the
      condensed photocopy sans from themes.ts - Impact at 13px is unreadable. */
   --font-display: Impact, Haettenschweiler, 'Arial Narrow Bold', 'Arial Black', sans-serif;
-  --maa-red: #ee1111;
+  --maa-red: #e0322b;
   --maa-hazard: #ffd400;
+  --maa-board: #d3b184;
 }
 
 /* ---------- The wall ---------- */
 
 [data-theme='maaSnEk'] body {
   background:
-    radial-gradient(45% 35% at 12% 14%, rgba(238, 17, 17, 0.3), transparent 100%),
-    radial-gradient(38% 30% at 88% 78%, rgba(238, 17, 17, 0.24), transparent 100%),
-    /* Roller streaks: black paint dragged across the wall in one direction. */
-      repeating-linear-gradient(114deg, rgba(0, 0, 0, 0.5) 0 16px, transparent 16px 34px),
-    linear-gradient(180deg, #1c0303 0%, #120202 58%, #070101 100%);
+    /* One spray tag, off to the side. One. */
+    radial-gradient(26% 20% at 84% 74%, rgba(224, 50, 43, 0.16), transparent 100%),
+    /* Roller streaks: black paint dragged across the concrete in one direction.
+       Low contrast and irregularly spaced on purpose - at full strength it read
+       as a printed stripe pattern rather than as a texture. */
+      repeating-linear-gradient(
+        114deg,
+        rgba(0, 0, 0, 0.22) 0 9px,
+        transparent 9px 26px,
+        rgba(0, 0, 0, 0.14) 26px 33px,
+        transparent 33px 64px
+      ),
+    linear-gradient(180deg, #212126 0%, #16161a 58%, #0e0e11 100%);
   background-attachment: fixed;
-  background-size: 140% 140%, 140% 140%, auto, auto;
-  animation: maa-rage 18s ease-in-out infinite;
-}
-
-/* The red never settles - it swells like a crowd catching its breath. */
-@keyframes maa-rage {
-  0%,
-  100% {
-    background-position: 0% 0%, 100% 100%, 0 0, 0 0;
-  }
-  50% {
-    background-position: 8% 6%, 92% 94%, 0 0, 0 0;
-  }
 }
 
 /* Reserve the strip the picket line below occupies, so it never covers the UI. */
@@ -64,8 +65,8 @@
 }
 
 /*
- * Picket line across the bottom of the screen: hazard tape with the chant on
- * it. Sits above the modal layer on purpose (the tape is across the whole
+ * Picket line across the bottom of the screen: a painted plank with the chant
+ * on it. Sits above the modal layer on purpose (the banner is across the whole
  * building, not just the room) with pointer-events off so nothing below it
  * becomes unclickable.
  */
@@ -89,27 +90,12 @@
      narrow window (it clips from both ends before it would ever wrap). */
   font-size: 13px;
   letter-spacing: 1px;
-  color: var(--maa-hazard);
-  /* Black halo so yellow stays legible where it crosses a red stripe. */
-  text-shadow: 0 0 3px #000, 2px 2px 0 #000, -2px 2px 0 #000;
-  background-image: repeating-linear-gradient(
-    135deg,
-    var(--maa-red) 0 16px,
-    #0a0000 16px 32px
-  );
-  border-top: 3px solid #000;
+  color: #f2efe8;
+  /* Second pass of the brush, slightly off - hand-painted, not printed. */
+  text-shadow: 1px 1px 0 rgba(224, 50, 43, 0.9);
+  background: #0b0b0d;
+  border-top: 2px solid var(--maa-red);
   box-shadow: 0 -8px 26px rgba(0, 0, 0, 0.85);
-  animation: maa-tape 1.4s linear infinite;
-}
-
-/* Tape marching past, the way a line of people does. */
-@keyframes maa-tape {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 45.26px 0;
-  }
 }
 
 /* ---------- THE slogan ---------- */
@@ -137,8 +123,11 @@
   font-size: clamp(18px, 3.2vw, 34px);
   line-height: 1.05;
   letter-spacing: 3px;
-  color: var(--maa-red);
-  background: #000;
+  /* Actual cardboard with actual marker on it: black lettering, a red second
+     pass that didn't line up. A red-on-black band here was the single loudest
+     source of the propaganda-poster read. */
+  color: #17130f;
+  background: linear-gradient(180deg, #dcbb8d 0%, var(--maa-board) 55%, #c1a074 100%);
   /* Torn poster edges - hand-cut cardboard, never a clean rectangle. */
   clip-path: polygon(
     0 6%,
@@ -155,9 +144,8 @@
     9% 96%,
     0 92%
   );
-  text-shadow:
-    3px 3px 0 #2b0000,
-    0 0 22px rgba(238, 17, 17, 0.6);
+  text-shadow: 3px 3px 0 var(--maa-red);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5);
   /* Kept under a degree on purpose: the placard is as wide as the window, so
      every extra degree swings its far edge tens of pixels out of the layout box
      and over the toolbar underneath. */
@@ -167,34 +155,34 @@
 
 /*
  * Chant rhythm: two beats, the second one louder. The beat is carried by the
- * glow and by a translate that only ever moves up and left - never by scale or
- * by a changing angle. On an element this wide, growing it a single percent put
- * ~2px past the right edge of `.app-main`, which popped a 14px horizontal
- * scrollbar, stole 14px of height from the calendar and re-laid the whole grid
- * out - twice a second. Moving towards the start edges cannot overflow a
- * scroll container.
+ * red pass drifting further off the lettering and by a translate that only ever
+ * moves up and left - never by scale or by a changing angle. On an element this
+ * wide, growing it a single percent put ~2px past the right edge of
+ * `.app-main`, which popped a 14px horizontal scrollbar, stole 14px of height
+ * from the calendar and re-laid the whole grid out - twice a second. Moving
+ * towards the start edges cannot overflow a scroll container.
  */
 @keyframes maa-shout {
   0%,
   100% {
     transform: rotate(-0.5deg) translate(0, 0);
-    text-shadow: 3px 3px 0 #2b0000, 0 0 18px rgba(238, 17, 17, 0.5);
+    text-shadow: 3px 3px 0 var(--maa-red);
   }
   20% {
     transform: rotate(-0.5deg) translate(-1px, -1px);
-    text-shadow: 3px 3px 0 #2b0000, 0 0 30px rgba(238, 17, 17, 0.8);
+    text-shadow: 4px 4px 0 var(--maa-red);
   }
   40% {
     transform: rotate(-0.5deg) translate(0, 0);
-    text-shadow: 3px 3px 0 #2b0000, 0 0 18px rgba(238, 17, 17, 0.5);
+    text-shadow: 3px 3px 0 var(--maa-red);
   }
   60% {
     transform: rotate(-0.5deg) translate(-2px, -2px);
-    text-shadow: 3px 3px 0 #2b0000, 0 0 40px rgba(255, 40, 40, 0.95);
+    text-shadow: 5px 5px 0 var(--maa-red);
   }
   80% {
     transform: rotate(-0.5deg) translate(0, -1px);
-    text-shadow: 3px 3px 0 #2b0000, 0 0 22px rgba(238, 17, 17, 0.6);
+    text-shadow: 3px 3px 0 var(--maa-red);
   }
 }
 
@@ -204,7 +192,7 @@
   position: relative;
   /* Above the sticky slogan, so the placard slides under the paint. */
   z-index: 7;
-  background: linear-gradient(180deg, #0b0000 0%, #000000 100%);
+  background: linear-gradient(180deg, #121215 0%, #000000 100%);
   border-bottom: none;
 }
 
@@ -228,9 +216,9 @@
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: #f6ece2;
+  color: #f2efe8;
   /* Misregistered screen print - the red plate landed off the black one. */
-  text-shadow: -2px 0 var(--maa-red), 2px 0 rgba(255, 212, 0, 0.5);
+  text-shadow: -2px 0 var(--maa-red);
   animation: maa-jitter 5s steps(1) infinite;
 }
 
@@ -256,7 +244,7 @@
 [data-theme='maaSnEk'] .app-version {
   font-family: var(--font-display);
   letter-spacing: 1px;
-  color: var(--maa-hazard);
+  color: #8d8d86;
 }
 
 /*
@@ -273,17 +261,20 @@
   vertical-align: -4px;
   background-repeat: no-repeat;
   background-size: 46px 20px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 20'%3E%3Cpath d='M8 19 L12 7' stroke='%23c9a06a' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M38 19 L34 7' stroke='%23c9a06a' stroke-width='2.2' stroke-linecap='round'/%3E%3Cg transform='rotate(-9 12 7)'%3E%3Crect x='3.5' y='1' width='17' height='11.5' fill='%23ee1111' stroke='%23000' stroke-width='1.4'/%3E%3Cpath d='M12 3.4 V7.8' stroke='%23000' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='10' r='1.1' fill='%23000'/%3E%3C/g%3E%3Cg transform='rotate(9 34 7)'%3E%3Crect x='25.5' y='1' width='17' height='11.5' fill='%23ee1111' stroke='%23000' stroke-width='1.4'/%3E%3Cpath d='M34 3.4 V7.8' stroke='%23000' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='34' cy='10' r='1.1' fill='%23000'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 20'%3E%3Cpath d='M8 19 L12 7' stroke='%23c9a06a' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M38 19 L34 7' stroke='%23c9a06a' stroke-width='2.2' stroke-linecap='round'/%3E%3Cg transform='rotate(-9 12 7)'%3E%3Crect x='3.5' y='1' width='17' height='11.5' fill='%23d3b184' stroke='%23000' stroke-width='1.4'/%3E%3Cpath d='M12 3.4 V7.8' stroke='%23000' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='10' r='1.1' fill='%23000'/%3E%3C/g%3E%3Cg transform='rotate(9 34 7)'%3E%3Crect x='25.5' y='1' width='17' height='11.5' fill='%23d3b184' stroke='%23000' stroke-width='1.4'/%3E%3Cpath d='M34 3.4 V7.8' stroke='%23000' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='34' cy='10' r='1.1' fill='%23000'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 /* ---------- Placards ---------- */
 
+/* Grey board, black shadow, no red outline: an outlined-in-red panel repeated
+   down the page was the other half of the propaganda-poster read. The red on a
+   card belongs to its heading, not its frame. */
 [data-theme='maaSnEk'] .card,
 [data-theme='maaSnEk'] .modal {
   position: relative;
-  background: linear-gradient(180deg, #260709 0%, #170303 100%);
-  border: 2px solid var(--maa-red);
-  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.75);
+  background: linear-gradient(180deg, #26262c 0%, #1b1b20 100%);
+  border: 1px solid #45454d;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6);
 }
 
 /* Nothing gets hung up straight. Alternating so a stack of cards reads as a
@@ -306,15 +297,15 @@
   width: 68px;
   height: 22px;
   pointer-events: none;
-  background: rgba(255, 212, 0, 0.34);
+  background: rgba(214, 196, 160, 0.4);
   border-left: 1px dashed rgba(0, 0, 0, 0.4);
   border-right: 1px dashed rgba(0, 0, 0, 0.4);
   transform: rotate(-4deg);
 }
 
 [data-theme='maaSnEk'] .modal-header {
-  background: #000;
-  border-bottom: 3px solid var(--maa-red);
+  background: #0b0b0d;
+  border-bottom: 2px solid var(--maa-red);
 }
 
 [data-theme='maaSnEk'] .modal-header h2 {
@@ -326,7 +317,7 @@
 }
 
 [data-theme='maaSnEk'] .modal-footer {
-  border-top: 3px solid var(--maa-red);
+  border-top: 2px solid var(--maa-red);
 }
 
 /* ---------- Stamped buttons ---------- */
@@ -337,13 +328,13 @@
   text-transform: uppercase;
   letter-spacing: 1.5px;
   border: 2px solid #000;
-  background: #2c0808;
-  color: #f6ece2;
+  background: #303038;
+  color: #ecebe6;
   box-shadow: 3px 3px 0 #000;
 }
 
 [data-theme='maaSnEk'] .btn:hover:not(:disabled) {
-  background: #431010;
+  background: #3d3d47;
 }
 
 [data-theme='maaSnEk'] .btn:active:not(:disabled) {
@@ -352,9 +343,9 @@
 }
 
 [data-theme='maaSnEk'] .btn-primary {
-  background: linear-gradient(180deg, #ff2a2a 0%, #ee1111 55%, #a80c0c 100%);
+  background: linear-gradient(180deg, #ee4038 0%, var(--maa-red) 55%, #a3221d 100%);
   border-color: #000;
-  color: #0d0101;
+  color: #150605;
 }
 
 /* The demand always ends in an exclamation mark. Negative margin cancels the
@@ -371,23 +362,25 @@
 }
 
 [data-theme='maaSnEk'] .btn-ghost:hover:not(:disabled) {
-  background: #2c0808;
+  background: #303038;
 }
 
 /*
- * Hazard tape, not red: with the accent already screaming red, colour alone
- * can't separate a destructive button from the primary one, so the destructive
- * one gets a pattern instead.
+ * Hazard yellow, not red: the accent is already red, so colour alone cannot
+ * separate a destructive button from the primary one. It used to be diagonal
+ * hazard stripes, which read as cold-war signage once there were three other
+ * striped surfaces on screen - the outline does the same job quietly.
  */
 [data-theme='maaSnEk'] .btn-danger-solid {
-  background-image: repeating-linear-gradient(
-    135deg,
-    var(--maa-hazard) 0 10px,
-    #0a0000 10px 20px
-  );
-  border-color: #000;
+  background: #17170c;
+  border-color: var(--maa-hazard);
   color: var(--maa-hazard);
-  text-shadow: 0 0 3px #000, 1px 1px 0 #000, -1px 1px 0 #000;
+  text-shadow: none;
+}
+
+[data-theme='maaSnEk'] .btn-danger-solid:hover:not(:disabled) {
+  background: #262617;
+  filter: none;
 }
 
 /* ---------- Spray-painted tabs ---------- */
@@ -396,16 +389,16 @@
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #c79a8f;
+  color: #9c9c96;
 }
 
 [data-theme='maaSnEk'] .nav-tab:hover:not(.active) {
-  color: var(--maa-hazard);
+  color: #ecebe6;
 }
 
 [data-theme='maaSnEk'] .nav-tab.active {
   background: var(--maa-red);
-  color: #0d0101;
+  color: #150605;
   box-shadow: 3px 3px 0 #000;
   transform: rotate(-1deg);
 }
@@ -415,33 +408,36 @@
 [data-theme='maaSnEk'] input,
 [data-theme='maaSnEk'] textarea,
 [data-theme='maaSnEk'] select {
-  background: #0a0000;
-  border: 2px solid #61100f;
-  color: #f6ece2;
+  background: #0e0e11;
+  border: 2px solid #45454d;
+  color: #ecebe6;
   caret-color: var(--maa-red);
 }
 
 [data-theme='maaSnEk'] input:focus,
 [data-theme='maaSnEk'] textarea:focus,
 [data-theme='maaSnEk'] select:focus {
-  border-color: var(--maa-hazard);
-  box-shadow: 0 0 0 3px rgba(238, 17, 17, 0.35);
+  border-color: var(--maa-red);
+  box-shadow: 0 0 0 3px rgba(224, 50, 43, 0.25);
 }
 
 /* .chip is a pill everywhere else; this theme rounds nothing. */
 [data-theme='maaSnEk'] .chip {
   border-radius: 0;
   border: 2px solid #000;
-  background: #2c0808;
+  background: #303038;
   box-shadow: 2px 2px 0 #000;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
+/* A picked chip is a cardboard tag, not another red block: the calendar
+   toolbar carries a red active tab and a red primary button already, and three
+   red things in one row is where this started looking like signage. */
 [data-theme='maaSnEk'] .chip.selected {
-  background: var(--maa-red);
+  background: var(--maa-board);
   border-color: #000;
-  color: #0d0101;
+  color: #17130f;
 }
 
 /* ---------- Calendar as a wall of leaflets ---------- */
@@ -459,8 +455,8 @@
 }
 
 [data-theme='maaSnEk'] .calendar-day {
-  border: 2px solid #43090b;
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55);
+  border: 2px solid #3c3c43;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
 }
 
 /* Today is stamped, not circled. */
@@ -497,7 +493,7 @@
   bottom: 28px;
 }
 
-/* ---------- Barricade scrollbars ---------- */
+/* ---------- Scrollbars ---------- */
 
 [data-theme='maaSnEk'] ::-webkit-scrollbar {
   width: 14px;
@@ -505,21 +501,21 @@
 }
 
 [data-theme='maaSnEk'] ::-webkit-scrollbar-track {
-  background: #0a0000;
+  background: #0e0e11;
 }
 
 [data-theme='maaSnEk'] ::-webkit-scrollbar-thumb {
-  background-image: repeating-linear-gradient(
-    135deg,
-    var(--maa-red) 0 8px,
-    #0a0000 8px 16px
-  );
+  background: #3c3c43;
   border: 2px solid #000;
+}
+
+[data-theme='maaSnEk'] ::-webkit-scrollbar-thumb:hover {
+  background: #4d4d56;
 }
 
 [data-theme='maaSnEk'] ::selection {
   background: var(--maa-red);
-  color: #0d0101;
+  color: #150605;
 }
 
 /* ---------- Shouted feedback ---------- */
@@ -529,16 +525,14 @@
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  background: #000;
+  background: #0b0b0d;
   border: 2px solid var(--maa-red);
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.7);
 }
 
 /* Keep the picture still for anyone who'd rather it stayed still - the placard
-   shake and the marching tape are the two that would otherwise never stop. */
+   is the one thing here that would otherwise never stop moving. */
 @media (prefers-reduced-motion: reduce) {
-  [data-theme='maaSnEk'] body,
-  [data-theme='maaSnEk'] body::before,
   [data-theme='maaSnEk'] .app-header h1,
   [data-theme='maaSnEk'] .app-main::before {
     animation: none;
