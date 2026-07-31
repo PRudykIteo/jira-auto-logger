@@ -216,7 +216,7 @@
     "updateManualOnly": "On this platform (unsigned build) updates are manual — we'll show a link to download the new version.",
     "sectionPrivacy": "Privacy & telemetry",
     "telemetryEnabled": "Share anonymous usage data",
-    "telemetryHint": "Helps improve the app by reporting anonymous usage: an app-launch and a time-logged event (entry count and total hours), plus the app version and OS your platform automatically adds. No issue keys, descriptions, credentials or any personal data are ever sent. Uses Aptabase; turn it off anytime."
+    "telemetryHint": "Helps improve the app by reporting anonymous usage: an app-launch event, a time-logged event (entry count and total hours) and a bare report-generated event, plus the app version and OS your platform automatically adds. No issue keys, descriptions, report contents, credentials or any personal data are ever sent. Uses Aptabase; turn it off anytime."
   },
   "reports": {
     "title": "PDF reports",

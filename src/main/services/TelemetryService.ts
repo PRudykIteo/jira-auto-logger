@@ -18,8 +18,9 @@ const APTABASE_APP_KEY = 'A-EU-3600777036'
  * the renderer never needs the SDK. Aptabase automatically attributes anonymous
  * sessions, app version, OS and locale to each event - that already yields
  * active-user and version counts; we add a `worklogs_created` event carrying
- * only a count and total hours, a `theme` prop on `app_started`, and an `env`
- * prop on every event. No issue keys, descriptions or credentials are sent.
+ * only a count and total hours, a propless `report_generated` event, a `theme`
+ * prop on `app_started`, and an `env` prop on every event. No issue keys,
+ * descriptions or credentials are sent.
  *
  * Note: `dev` (unpackaged) runs are tagged `isDebug: true` by the SDK, so their
  * events appear only under the Aptabase dashboard's "Debug" filter, not the
@@ -71,6 +72,14 @@ export class TelemetryService {
   /** One event per successful worklog submission; hours rounded to keep it coarse. */
   trackWorklogsCreated(count: number, hours: number): void {
     void this.track('worklogs_created', { count, hours: Math.round(hours * 100) / 100 })
+  }
+
+  /**
+   * One bare event per generated monthly PDF report - deliberately without props:
+   * we only want to know that reports are being used, not how they were shaped.
+   */
+  trackReportGenerated(): void {
+    void this.track('report_generated')
   }
 
   /** Telemetry sends only when initialized (has key, not mock) and opted in. */

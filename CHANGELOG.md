@@ -10,6 +10,12 @@ workflow picks the section whose version matches the one being published; a
 push with no matching section falls back to GitHub's auto-generated notes.
 Write for users, not for the commit log — see the `release` skill.
 
+## 0.1.25 — 2026-07-31
+
+- Anonymous usage telemetry now also counts **generated monthly reports** — just
+  the fact that one was created, with no details about its contents or settings.
+  Turn it off under Settings → Privacy & telemetry.
+
 ## 0.1.23 — 2026-07-30
 
 - The installed version is now shown next to the app name in the header, so you
