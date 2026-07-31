@@ -23,9 +23,32 @@
  */
 
 [data-theme='maaSnEk'] {
-  /* Poster typeface for everything that shouts. The body font stays the
-     condensed photocopy sans from themes.ts - Impact at 13px is unreadable. */
+  /*
+   * Poster typeface, for signage only - the title, the tabs, headings, the
+   * stamps. It deliberately does NOT reach the buttons and chips any more:
+   * Impact on every control in the app made the whole UI one printed poster.
+   * The body font stays the condensed photocopy sans from themes.ts (Impact at
+   * 13px is unreadable).
+   */
   --font-display: Impact, Haettenschweiler, 'Arial Narrow Bold', 'Arial Black', sans-serif;
+
+  /*
+   * Everything painted by hand - the banner and the plank - is lettered by hand
+   * too. All the candidates here ship with the OS (Ink Free is Windows 10+,
+   * Segoe Print Vista+, Marker Felt and Chalkboard are macOS), so nothing is
+   * downloaded and nothing is licensed.
+   *
+   * Ink Free leads because it is the only handwriting face on Windows narrow
+   * enough to keep the whole slogan on one line at the banner's size, and
+   * because it draws Ę itself - Bradley Hand substitutes that glyph from
+   * another font, which shows badly in a Polish slogan.
+   *
+   * The stack ends in the poster face on purpose: on a machine with none of
+   * these installed the slogans stay exactly as they were rather than falling
+   * back to some arbitrary serif.
+   */
+  --font-paint: 'Ink Free', 'Segoe Print', 'Marker Felt', 'Chalkboard SE', 'Bradley Hand',
+    'Comic Sans MS', var(--font-display);
   --maa-red: #e0322b;
   --maa-hazard: #ffd400;
   --maa-board: #c19a68;
@@ -108,11 +131,13 @@
   padding: 0 12px;
   pointer-events: none;
   white-space: nowrap;
-  font-family: var(--font-display);
-  /* Long chant, one line, never wrapped: the size is what keeps it inside a
-     narrow window (it clips from both ends before it would ever wrap). */
-  font-size: 13px;
-  letter-spacing: 1px;
+  font-family: var(--font-paint);
+  font-weight: 700;
+  /* Long chant, one line, never wrapped: the size and the absent tracking are
+     what keep it inside a narrow window (it clips from both ends before it
+     would ever wrap). */
+  font-size: 14px;
+  letter-spacing: 0;
   color: #f2efe8;
   /* Second pass of the brush, slightly off - hand-painted, not printed. */
   text-shadow: 1px 1px 0 rgba(224, 50, 43, 0.9);
@@ -153,10 +178,13 @@
      lettering has to sit above it. */
   padding: 7px 16px 15px;
   text-align: center;
-  font-family: var(--font-display);
+  font-family: var(--font-paint);
+  font-weight: 700;
   font-size: clamp(18px, 3.2vw, 34px);
-  line-height: 1.05;
-  letter-spacing: 3px;
+  /* Handwriting needs the room the poster face didn't: taller lines for the
+     ascenders and no tracking, because brush letters already sit apart. */
+  line-height: 1.15;
+  letter-spacing: 0;
   /* Red paint on an old sheet, brushed on by hand - never quite even, and dark
      enough not to glare off the cloth. */
   color: #b81f18;
@@ -303,9 +331,7 @@
   }
 }
 
-/* The version reads as the serial number stamped on the placard. */
 [data-theme='maaSnEk'] .app-version {
-  font-family: var(--font-display);
   letter-spacing: 1px;
   color: #8d8d86;
 }
@@ -389,11 +415,13 @@
 
 /* ---------- Stamped buttons ---------- */
 
+/* Bold condensed print, not the poster face: buttons are the most numerous
+   thing on screen, so they were most of the reason the whole app read as one
+   Impact poster. Still shouting - uppercase and heavy - just not signage. */
 [data-theme='maaSnEk'] .btn {
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   border: 2px solid #000;
   background: #303038;
   color: #ecebe6;
@@ -495,6 +523,7 @@
   background: #303038;
   box-shadow: 2px 2px 0 #000;
   text-transform: uppercase;
+  font-weight: 700;
   letter-spacing: 0.5px;
 }
 
@@ -536,6 +565,7 @@
   background: #303038;
   box-shadow: 2px 2px 0 #000;
   text-transform: uppercase;
+  font-weight: 700;
   letter-spacing: 0.5px;
 }
 
