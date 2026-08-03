@@ -6,6 +6,15 @@ export interface Theme {
   id: string
   nameKey: string
   variables: Record<string, string>
+  /**
+   * Kept out of the theme dropdown in Settings. The theme itself works
+   * normally - `applyTheme` doesn't care - it just isn't offered, so reaching it
+   * takes either the unlock sequence on the Settings screen, a hand-edited
+   * `themeId` in config.json or `JAL_THEME=<id>` at launch. Once it is the
+   * active theme the dropdown lists it again, otherwise the control would show
+   * a value that isn't among its options.
+   */
+  hidden?: boolean
 }
 
 const shared = {
@@ -291,6 +300,7 @@ export const THEMES: Theme[] = [
   {
     id: 'maaSnEk',
     nameKey: 'settings.themeMaaSnEk',
+    hidden: true,
     variables: {
       ...shared,
       // Protest: a concrete wall, black paint, cardboard placards and red used

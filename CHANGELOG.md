@@ -12,11 +12,12 @@ Write for users, not for the commit log — see the `release` skill.
 
 ## 0.1.26 — 2026-07-31
 
-- Added a **maa-sn-ek ✊ protest** theme, because logging time is harassment: a
-  concrete wall, black paint running off the header, cardboard placards taped
-  up crooked, a slogan you can't scroll away from and a painted banner along
-  the bottom of the window. Pick it under Settings → Appearance → Theme.
-  (Honors "reduce motion" if you'd rather the placard stopped shaking.)
+- Added a hidden **maa-sn-ek** theme, because logging time is harassment: a
+  concrete wall, black paint running off the header, cardboard placards taped up
+  crooked, a hand-lettered banner you can't scroll away from and a painted plank
+  along the bottom of the window. It is deliberately **not** in
+  Settings → Appearance → Theme — if you know how to get to it, it's yours.
+  (Honors "reduce motion" if you'd rather the banner stopped moving.)
 
 ## 0.1.25 — 2026-07-31
 
